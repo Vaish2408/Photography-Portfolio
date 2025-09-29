@@ -4,7 +4,10 @@ ArtfulAperture is a modern, responsive photography portfolio website that showca
 It is designed for photographers, creatives, and anyone who wants to showcase their work in a clean, professional way.
 
 ---
+## Note
+First Open login.html
 
+---
 ## 🌟 Features
 
 - **Home Page:** Hero section with quote, about section, featured team, and edit work showcase.
