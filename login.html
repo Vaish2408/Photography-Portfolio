@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login Form</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="box">
+      <div class="form">
+        <h2>Login Form</h2>
+        <form id="loginForm">
+          <div class="inputbox">
+            <input type="text" id="username" required />
+            <span>Username</span>
+          </div>
+          <div class="inputbox">
+            <input type="email" id="email" required />
+            <span>E-mail</span>
+          </div>
+          <div class="inputbox">
+            <input type="text" id="phone" required />
+            <span>Phone Number</span>
+          </div>
+          <input type="submit" value="Submit" class="sub" id="submit" />
+          <br /><br />
+          <span class="note">
+            Note: "Remember that it is just for formality. You can directly
+            login without any signup."
+          </span>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      // === Firebase Setup ===
+      // Replace the placeholders below with your own Firebase project config
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        databaseURL: "YOUR_DATABASE_URL",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        set,
+      } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const phone = document.getElementById("phone").value.trim();
+
+          if (!username || !email || !phone) {
+            alert("Please fill in all fields.");
+            return;
+          }
+
+          try {
+            await set(ref(db, "users/" + username), {
+              username,
+              email,
+              phoneNumber: phone,
+            });
+            alert("Login Successful!");
+            setTimeout(() => {
+              window.location.href = "index.html";
+            }, 500);
+          } catch (error) {
+            console.error("Error writing to database: ", error);
+            alert("Error: " + error.message);
+          }
+        });
+    </script>
+  </body>
+</html>
